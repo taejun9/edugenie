@@ -1,0 +1,64 @@
+@import './tailwind.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  /* font-weight: normal; */
+}
+body {
+  line-height: 1.6;
+  font-size: 16px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#app {
+  margin: 0 auto;
+  font-weight: normal;
+}
+
+/* 컴포넌트 확인 */
+select {
+  line-height: 1;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  /* 전체 페이지 한번에 - 섹션 단위로 끊기지 않도록 */
+  .print-keep-together {
+    page-break-inside: avoid;
+  }
+  /* 인쇄 시 모든 섹션 표시 - hidden, fade-in 등 무시 */
+  .result-view section {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    animation: none !important;
+    margin-bottom: 0.5rem;
+  }
+  .result-view section:last-child {
+    margin-bottom: 0;
+  }
+  .result-view details[open] {
+    margin-top: 0.25rem;
+  }
+  /* 정답/해설 내용 - fade-in 애니메이션 미실행 시 opacity:0 방지 */
+  .result-view details[open] > div {
+    padding: 0.5rem !important;
+    margin-top: 0.25rem !important;
+    opacity: 1 !important;
+    animation: none !important;
+  }
+}

@@ -1,0 +1,33 @@
+/* Google Fonts import */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-color: #805ee8;
+  --primary-accent-color: #532ec1;
+  --secondary-color: #e8e0ff;
+  --light-gray-color: #f5f5f5;
+  --middle-gray-color: #e6e6e6;
+  --accent-gray-color: #dbdbdb;
+}
+
+/* TailwindCSS 글로벌 폰트 설정 */
+@layer base {
+  body {
+    font-family: 'Roboto', 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  }
+}
+ul {
+  list-style: disc !important;
+}
+ol {
+  list-style: decimal !important;
+}
+ul,
+ol {
+  margin-left: 40px;
+}

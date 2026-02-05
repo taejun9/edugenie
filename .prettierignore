@@ -1,0 +1,6 @@
+Dockerfile
+Dockerfile.*
+bitbucket-pipelines.yml
+docker-compose.yaml
+k8s/*
+README.md
