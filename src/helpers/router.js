@@ -2,7 +2,7 @@
  * Vue Router 설정 파일
  * 애플리케이션의 라우팅을 관리합니다.
  */
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 
 /**
  * 라우트 정의
@@ -34,10 +34,10 @@ const routes = [
 
 /**
  * Router 인스턴스 생성
- * createWebHistory를 사용하여 HTML5 History 모드를 활성화합니다.
+ * createWebHashHistory를 사용하여 Hash History 모드를 활성화합니다.
  */
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes,
 })
 

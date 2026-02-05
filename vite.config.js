@@ -30,9 +30,6 @@ export default defineConfig(({ command, mode }) => {
   } else {
     // command === 'build'
     return {
-      server: {
-        host: '0.0.0.0',
-      },
       plugins: [vue()],
       resolve: {
         alias: {
@@ -42,7 +39,7 @@ export default defineConfig(({ command, mode }) => {
       build: {
         chunkSizeWarningLimit: 1600,
       },
-      base: '/',
+      base: '/edugenie/',
     }
   }
 })
