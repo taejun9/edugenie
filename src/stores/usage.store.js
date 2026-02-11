@@ -43,7 +43,7 @@ const fetchTokenUsage = async () => {
 
   tokenUsageLoading.value = true
   try {
-    const headers = { 'X-Fingerprint': fp }
+    const headers = { 'X-Fingerprint': fp, 'ngrok-skip-browser-warning': 'true' }
     if (user.value?.email) headers['X-User-Email'] = user.value.email
     const res = await fetch(API_ENDPOINTS.GEMINI.USAGE, { headers })
     if (!res.ok) return 0

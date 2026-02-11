@@ -1,6 +1,6 @@
 <template>
   <div
-    class="no-print mb-8 flex items-start space-x-3 rounded-xl border border-red-100 bg-red-50 p-4 text-red-700 animate-in fade-in slide-in-from-top-2"
+    class="mb-8 flex items-start space-x-3 rounded-xl border border-red-100 bg-red-50 p-4 text-red-700 animate-in fade-in slide-in-from-top-2"
     role="alert"
     aria-live="assertive"
   >

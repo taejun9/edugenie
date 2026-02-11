@@ -12,7 +12,7 @@
         @keydown.enter.prevent="$emit('tab-change', tab.id)"
         @keydown.space.prevent="$emit('tab-change', tab.id)"
         :class="[
-          'rounded-xl px-5 py-2.5 text-sm font-bold transition-all focus:outline-none',
+          'rounded-xl px-3 py-2.5 text-xs font-bold tracking-tighter transition-all focus:outline-none lg:px-5 lg:text-sm lg:tracking-tight',
           activeTab === tab.id
             ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-100'
             : 'text-gray-500 hover:bg-gray-200',

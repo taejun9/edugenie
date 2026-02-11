@@ -10,7 +10,7 @@
     >
       <div
         v-if="visible"
-        class="no-print no-print fixed inset-0 z-[60] flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
+        class="no-print fixed inset-0 z-[60] flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
         @click="handleBackdropClick"
         role="dialog"
         aria-modal="true"

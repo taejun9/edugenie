@@ -18,6 +18,7 @@ export async function generateEducationalContent(params) {
 
   const headers = {
     'Content-Type': 'application/json',
+    'ngrok-skip-browser-warning': 'true',
   }
   if (fingerprint) headers['X-Fingerprint'] = fingerprint
   if (userEmail) headers['X-User-Email'] = userEmail

@@ -14,6 +14,7 @@
     <ConceptMap
       :graph="content.keywordGraph"
       :language="content.language"
+      :is-active="isActive"
       @edge-click="(edge) => emit('edge-click', edge)"
     />
   </section>

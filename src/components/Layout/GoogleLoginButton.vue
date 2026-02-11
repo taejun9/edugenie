@@ -2,7 +2,7 @@
   <button
     @click="openGoogleLoginPopup"
     :disabled="disabled"
-    class="disabled:cursor-defaults group relative flex h-10 min-w-max max-w-[400px] cursor-pointer select-none items-center justify-center overflow-hidden rounded-[20px] border px-3 font-['Roboto',_arial,_sans-serif] text-sm tracking-[0.25px] transition-all duration-[218ms] focus:outline-none"
+    class="disabled:cursor-defaults group relative box-content flex h-[40px] min-w-max max-w-[400px] cursor-pointer select-none items-center justify-center overflow-hidden rounded-full border px-2.5 font-['Roboto',_arial,_sans-serif] text-sm tracking-[0.25px] transition-all duration-[218ms] focus:outline-none lg:rounded-[20px] lg:px-3"
     :class="[
       isDarkMode
         ? 'border-[#8e918f] bg-[#131314] text-[#e3e3e3] disabled:border-[#8e918f1f] disabled:bg-[#13131461]'
@@ -22,7 +22,7 @@
     ></div>
 
     <div class="relative flex h-full w-full items-center justify-between">
-      <div class="mr-[10px] h-5 w-5 min-w-[20px]" :class="{ 'opacity-[38%]': disabled }">
+      <div class="h-5 w-5 min-w-[20px] lg:mr-[10px]" :class="{ 'opacity-[38%]': disabled }">
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="block">
           <path
             fill="#EA4335"
@@ -44,7 +44,7 @@
       </div>
 
       <span
-        class="grow overflow-hidden text-ellipsis whitespace-nowrap align-top font-medium"
+        class="hidden grow overflow-hidden text-ellipsis whitespace-nowrap align-top font-medium lg:block"
         :class="{ 'opacity-[38%]': disabled }"
       >
         <slot>Sign in</slot>

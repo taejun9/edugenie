@@ -12,66 +12,70 @@
       </p>
     </div>
 
-    <!-- SVG 캔버스 -->
-    <svg
-      :viewBox="`0 0 ${CANVAS_WIDTH} ${height}`"
-      class="h-auto max-h-[700px] w-full select-none drop-shadow-sm print:max-h-[400px]"
-    >
-      <!-- SVG 정의 -->
-      <SVGDefs />
+    <!-- SVG 캔버스 컨테이너 (모바일 가로 스크롤) -->
+    <div ref="scrollContainer" class="w-full overflow-x-auto overflow-y-hidden">
+      <!-- SVG 캔버스 -->
+      <svg
+        :viewBox="`0 0 ${CANVAS_WIDTH} ${height}`"
+        class="h-auto w-full min-w-[600px] select-none drop-shadow-sm print:max-h-[400px]"
+        @click="handleBackgroundClick"
+      >
+        <!-- SVG 정의 -->
+        <SVGDefs />
 
-      <!-- 배경 그리드 -->
-      <rect width="100%" height="100%" fill="url(#dotGrid)" class="no-print" />
+        <!-- 배경 그리드 -->
+        <rect width="100%" height="100%" fill="url(#dotGrid)" class="no-print" />
 
-      <!-- 간선 렌더링 -->
-      <GraphEdge
-        v-for="(edge, i) in graph.edges"
-        :key="`edge-${i}`"
-        :start-pos="getNodePos(edge.source)"
-        :end-pos="getNodePos(edge.target)"
-        :is-active="isEdgeActive(i)"
-        :should-dim="hasHoveredItem && !isEdgeActive(i)"
-      />
-
-      <!-- 비활성 간선 라벨 -->
-      <template v-for="(edge, i) in graph.edges" :key="`edge-label-inactive-${i}`">
-        <EdgeLabel
-          v-if="!isEdgeLabelActive(i)"
-          :position="getLabelPos(edge, i)"
-          :relationship="edge.relationship"
-          :is-active="false"
-          @click="emit('edge-click', edge)"
-          @mouseenter="hoveredEdge = i"
-          @mouseleave="hoveredEdge = null"
+        <!-- 간선 렌더링 -->
+        <GraphEdge
+          v-for="(edge, i) in graph.edges"
+          :key="`edge-${i}`"
+          :start-pos="getNodePos(edge.source)"
+          :end-pos="getNodePos(edge.target)"
+          :is-active="isEdgeActive(i)"
+          :should-dim="hasHoveredItem && !isEdgeActive(i)"
         />
-      </template>
 
-      <!-- 노드 렌더링 -->
-      <GraphNode
-        v-for="node in layout"
-        :key="`node-${node.id}`"
-        :node="getNodeWithCurrentPos(node)"
-        :is-active="isNodeActive(node.id)"
-        :is-hovered="isNodeHovered(node.id)"
-        :is-connected="isNodeConnected(node.id)"
-        :has-hovered-item="hasHoveredItem"
-        @mouseenter="hoveredNode = $event"
-        @mouseleave="hoveredNode = null"
-      />
+        <!-- 비활성 간선 라벨 -->
+        <template v-for="(edge, i) in graph.edges" :key="`edge-label-inactive-${i}`">
+          <EdgeLabel
+            v-if="!isEdgeLabelActive(i)"
+            :position="getLabelPos(edge, i)"
+            :relationship="edge.relationship"
+            :is-active="false"
+            @mouseenter="hoveredEdge = i"
+            @mouseleave="hoveredEdge = null"
+          />
+        </template>
 
-      <!-- 활성 간선 라벨 -->
-      <template v-for="(edge, i) in graph.edges" :key="`edge-label-active-${i}`">
-        <EdgeLabel
-          v-if="isEdgeLabelActive(i)"
-          :position="getLabelPos(edge, i)"
-          :relationship="edge.relationship"
-          :is-active="true"
-          @click="emit('edge-click', edge)"
-          @mouseenter="hoveredEdge = i"
-          @mouseleave="hoveredEdge = null"
+        <!-- 노드 렌더링 -->
+        <GraphNode
+          v-for="node in layout"
+          :key="`node-${node.id}`"
+          :node="getNodeWithCurrentPos(node)"
+          :is-active="isNodeActive(node.id)"
+          :is-hovered="isNodeHovered(node.id)"
+          :is-connected="isNodeConnected(node.id)"
+          :has-hovered-item="hasHoveredItem"
+          @mouseenter="hoveredNode = $event"
+          @mouseleave="hoveredNode = null"
+          @node-click="handleNodeClick"
         />
-      </template>
-    </svg>
+
+        <!-- 활성 간선 라벨 -->
+        <template v-for="(edge, i) in graph.edges" :key="`edge-label-active-${i}`">
+          <EdgeLabel
+            v-if="isEdgeLabelActive(i)"
+            :position="getLabelPos(edge, i)"
+            :relationship="edge.relationship"
+            :is-active="true"
+            @click="emit('edge-click', edge)"
+            @mouseenter="hoveredEdge = i"
+            @mouseleave="hoveredEdge = null"
+          />
+        </template>
+      </svg>
+    </div>
   </div>
 </template>
 
@@ -90,6 +94,8 @@
  * - 간선 클릭 시 상세 정보 모달 표시
  * - 반응형 레이아웃 (노드 수에 따라 캔버스 높이 자동 조정)
  * - 노드 중요도에 따른 크기 차별화
+ * - [Mobile] 노드 탭(Click) 시 활성화 및 유지 (Selected state)
+ * - [Mobile] 가로 스크롤 지원
  *
  * @example
  * <ConceptMap
@@ -129,6 +135,13 @@ const props = defineProps({
     type: String,
     default: 'Korean',
   },
+  /**
+   * 컴포넌트 활성화 여부 (탭 선택 등)
+   */
+  isActive: {
+    type: Boolean,
+    default: true,
+  },
 })
 
 /**
@@ -139,8 +152,43 @@ const props = defineProps({
  */
 const emit = defineEmits(['edge-click'])
 
+/** 스크롤 컨테이너 참조 */
+const scrollContainer = ref(null)
+
+/**
+ * 스크롤을 중앙으로 이동
+ */
+const scrollToCenter = () => {
+  if (!scrollContainer.value) return
+  const { scrollWidth, clientWidth } = scrollContainer.value
+  if (scrollWidth > clientWidth) {
+    scrollContainer.value.scrollLeft = (scrollWidth - clientWidth) / 2
+  }
+}
+
+// 활성화 상태가 되면 중앙 정렬
+import { nextTick, onMounted, watch } from 'vue'
+
+watch(
+  () => props.isActive,
+  (active) => {
+    if (active) {
+      nextTick(() => scrollToCenter())
+    }
+  },
+)
+
+onMounted(() => {
+  if (props.isActive) {
+    nextTick(() => scrollToCenter())
+  }
+})
+
 /** 현재 호버된 노드 ID */
 const hoveredNode = ref(null)
+
+/** 현재 선택된 노드 ID (모바일/클릭용) */
+const selectedNode = ref(null)
 
 /** 현재 호버된 간선 인덱스 */
 const hoveredEdge = ref(null)
@@ -150,19 +198,24 @@ const graphRef = toRef(props, 'graph')
 const { layout, height, getNodePos: getNodePosBase } = useGraphLayout(graphRef)
 
 /**
+ * 현재 활성 노드 ID (호버 또는 선택)
+ */
+const activeNodeId = computed(() => hoveredNode.value || selectedNode.value)
+
+/**
  * 현재 호버 상태를 반영한 노드 위치 조회
  * 호버된 노드와 연결된 노드는 멀어지는 애니메이션 효과가 적용됩니다.
  * @param {string} id - 노드 ID
  * @returns {{x: number, y: number}} 노드 위치 좌표
  */
 const getNodePos = (id) => {
-  return getNodePosBase(id, hoveredNode.value)
+  return getNodePosBase(id, activeNodeId.value)
 }
 
 /**
  * 호버된 항목이 있는지 확인
  */
-const hasHoveredItem = computed(() => hoveredNode.value !== null || hoveredEdge.value !== null)
+const hasHoveredItem = computed(() => activeNodeId.value !== null || hoveredEdge.value !== null)
 
 /**
  * 간선 라벨 위치 계산
@@ -191,7 +244,7 @@ const getLabelPos = (edge, index) => {
  * @param {string} nodeId - 노드 ID
  * @returns {boolean} 호버 여부
  */
-const isNodeHovered = (nodeId) => hoveredNode.value === nodeId
+const isNodeHovered = (nodeId) => activeNodeId.value === nodeId
 
 /**
  * 노드가 호버된 노드와 연결되어 있는지 확인
@@ -199,11 +252,11 @@ const isNodeHovered = (nodeId) => hoveredNode.value === nodeId
  * @returns {boolean} 연결 여부
  */
 const isNodeConnected = (nodeId) => {
-  if (!hoveredNode.value || hoveredNode.value === nodeId) return false
+  if (!activeNodeId.value || activeNodeId.value === nodeId) return false
   return props.graph.edges.some(
     (e) =>
-      (e.source === nodeId && e.target === hoveredNode.value) ||
-      (e.target === nodeId && e.source === hoveredNode.value),
+      (e.source === nodeId && e.target === activeNodeId.value) ||
+      (e.target === nodeId && e.source === activeNodeId.value),
   )
 }
 
@@ -214,7 +267,7 @@ const isNodeConnected = (nodeId) => {
  * @returns {boolean} 활성화 여부
  */
 const isNodeActive = (nodeId) => {
-  const isHovered = hoveredNode.value === nodeId
+  const isHovered = activeNodeId.value === nodeId
   const isConnected =
     isNodeConnected(nodeId) ||
     props.graph.edges.some(
@@ -245,8 +298,8 @@ const getNodeWithCurrentPos = (node) => {
 const isEdgeActive = (index) => {
   const edge = props.graph.edges[index]
   return (
-    hoveredNode.value === edge.source ||
-    hoveredNode.value === edge.target ||
+    activeNodeId.value === edge.source ||
+    activeNodeId.value === edge.target ||
     hoveredEdge.value === index
   )
 }
@@ -261,8 +314,37 @@ const isEdgeLabelActive = (index) => {
   const edge = props.graph.edges[index]
   return (
     hoveredEdge.value === index ||
-    (hoveredNode.value !== null &&
-      (edge.source === hoveredNode.value || edge.target === hoveredNode.value))
+    (activeNodeId.value !== null &&
+      (edge.source === activeNodeId.value || edge.target === activeNodeId.value))
   )
+}
+
+/**
+ * 노드 클릭 핸들러 (모바일 지원)
+ * - 이미 선택된 노드 클릭 -> 위키 페이지 이동 (기본 동작 허용)
+ * - 선택되지 않은 노드 클릭 -> 선택(하이라이트) 상태로 변경하고 이동 막기
+ */
+const handleNodeClick = (node, event) => {
+  // 데스크탑 등 hover가 주력인 환경에서도 클릭 시 고정할 수 있음
+  // 여기서는 모바일 사용성을 위해 "첫 터치=선택, 두번째 터치=이동" 패턴 적용
+
+  if (selectedNode.value !== node.id) {
+    // 아직 선택되지 않은 노드라면 -> 선택만 하고 이동 막음
+    event.preventDefault()
+    selectedNode.value = node.id
+  } else {
+    // 이미 선택된 상태라면 -> 링크 이동하도록 놔둠 (state는 굳이 안 꺼도 됨)
+    // 혹은 토글하려면: selectedNode.value = null; event.preventDefault();
+  }
+}
+
+/**
+ * 배경 클릭 시 선택 해제
+ */
+const handleBackgroundClick = (event) => {
+  // SVG 배경 클릭 시 선택 초기화
+  if (event.target.tagName === 'svg' || event.target.tagName === 'rect') {
+    selectedNode.value = null
+  }
 }
 </script>

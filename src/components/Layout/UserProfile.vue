@@ -3,7 +3,7 @@
     <!-- Profile Button (Google Login Button Style) -->
     <button
       @click="toggleDropdown"
-      class="flex h-10 items-center gap-2 rounded-full border border-[#747775] bg-white px-1 pl-1 pr-3 transition-colors hover:bg-gray-50 focus:outline-none"
+      class="box-content flex h-10 items-center gap-x-0.5 rounded-full border border-[#747775] bg-white px-1 pr-2 transition-colors hover:bg-gray-50 focus:outline-none"
       :class="{ 'bg-gray-100': isOpen }"
       aria-haspopup="true"
       :aria-expanded="isOpen"
@@ -21,7 +21,9 @@
       </div>
 
       <!-- Name -->
-      <span class="font-['Roboto',_arial,_sans-serif] text-sm font-medium text-[#1f1f1f]">
+      <span
+        class="hidden font-['Roboto',_arial,_sans-serif] text-sm font-medium text-[#1f1f1f] xs-390:block"
+      >
         {{ user.name }}
       </span>
 

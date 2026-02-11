@@ -10,6 +10,7 @@
     }"
     @mouseenter="$emit('mouseenter', node.id)"
     @mouseleave="$emit('mouseleave')"
+    @click="(e) => $emit('node-click', node, e)"
   >
     <g
       :transform="`translate(${node.x}, ${node.y})`"
@@ -142,7 +143,7 @@ const props = defineProps({
   },
 })
 
-defineEmits(['mouseenter', 'mouseleave'])
+defineEmits(['mouseenter', 'mouseleave', 'node-click'])
 
 /**
  * 노드 기본 반지름 계산
