@@ -2,13 +2,13 @@
   <button
     @click="openGoogleLoginPopup"
     :disabled="disabled"
-    class="disabled:cursor-defaults group relative box-content flex h-[40px] min-w-max max-w-[400px] cursor-pointer select-none items-center justify-center overflow-hidden rounded-full border px-2.5 font-['Roboto',_arial,_sans-serif] text-sm tracking-[0.25px] transition-all duration-[218ms] focus:outline-none lg:rounded-[20px] lg:px-3"
+    class="disabled:cursor-defaults group relative box-content flex h-10 min-w-max max-w-[400px] cursor-pointer select-none items-center justify-center overflow-hidden rounded-full border px-2.5 font-['Roboto',_arial,_sans-serif] text-sm tracking-[0.25px] transition-all duration-[218ms] focus:outline-none lg:rounded-[20px] lg:px-3"
     :class="[
       isDarkMode
         ? 'border-[#8e918f] bg-[#131314] text-[#e3e3e3] disabled:border-[#8e918f1f] disabled:bg-[#13131461]'
         : 'border-[#747775] bg-white text-[#1f1f1f] disabled:border-[#1f1f1f1f] disabled:bg-[#ffffff61]',
       !disabled
-        ? 'hover:shadow-[0_1px_2px_0_rgba(60,64,67,0.30),0_1px_3px_1px_rgba(60,64,67,0.15)]'
+        ? 'hover:scale-[1.02] hover:shadow-[0_1px_2px_0_rgba(60,64,67,0.30),0_1px_3px_1px_rgba(60,64,67,0.15)]'
         : '',
     ]"
   >

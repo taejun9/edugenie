@@ -115,10 +115,7 @@ const fetchFingerprint = async () => {
   fingerprintLoading.value = true
   fingerprintFetchPromise = (async () => {
     try {
-      const res = await fetch(API_ENDPOINTS.FINGERPRINT, {
-        method: 'GET',
-        headers: { 'ngrok-skip-browser-warning': 'true' },
-      })
+      const res = await fetch(API_ENDPOINTS.FINGERPRINT)
       if (!res.ok) throw new Error(`Fingerprint fetch failed: ${res.status}`)
       const data = await res.json()
       const value = data?.fingerprint ?? null

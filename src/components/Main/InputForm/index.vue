@@ -23,7 +23,11 @@
   >
     <div class="grid grid-cols-1 gap-6 md:grid-cols-12">
       <!-- Learning Topic Input Field -->
-      <FormField label="Learning Topic" :col-span="12">
+      <FormField
+        label="TYPE ANY TOPIC TO START MAGIC"
+        :col-span="12"
+        :label-style="'text-sm font-extrabold text-color-main'"
+      >
         <div class="relative">
           <input
             type="text"
@@ -45,12 +49,12 @@
       </FormField>
 
       <!-- Target Grade Selection Field -->
-      <FormField label="Target Grade" :col-span="3">
+      <FormField label="GRADE" :col-span="3">
         <SelectField v-model="gradeLevel" :options="GRADE_LEVELS" :disabled="isLoading" />
       </FormField>
 
       <!-- Passage Length Selection Field -->
-      <FormField label="Passage Length" :col-span="3">
+      <FormField label="PASSAGE LENGTH" :col-span="3">
         <SelectField
           v-model="passageLength"
           :options="PASSAGE_LENGTHS"
@@ -61,7 +65,7 @@
       </FormField>
 
       <!-- Knowledge Map Complexity Selection Field -->
-      <FormField label="Map Complexity" :col-span="3">
+      <FormField label="MAP COMPLEXITY" :col-span="3">
         <SelectField
           v-model="mapComplexity"
           :options="MAP_COMPLEXITIES"
@@ -72,7 +76,7 @@
       </FormField>
 
       <!-- Output Language Selection Field -->
-      <FormField label="Output Language" :col-span="3">
+      <FormField label="LANGUAGE" :col-span="3">
         <SelectField
           v-model="language"
           :options="LANGUAGES"
@@ -86,18 +90,21 @@
       <div class="mt-2 flex justify-center md:col-span-12">
         <button
           type="submit"
-          :disabled="isLoading || !inputTopic.trim()"
+          :disabled="isLoading || !inputTopic?.trim()"
           :class="[
-            'w-full max-w-xs transform rounded-xl px-6 py-4 text-lg font-bold text-white shadow-lg transition-all active:scale-95',
-            isLoading || !inputTopic.trim()
+            'w-full transform rounded-2xl px-6 py-4 text-lg font-extrabold tracking-tight text-white shadow-lg transition-all active:scale-95',
+            isLoading || !inputTopic?.trim()
               ? 'cursor-not-allowed bg-gray-300 shadow-none'
               : 'bg-gradient-to-r from-color-main to-color-sub shadow-lg shadow-color-main/30 hover:from-blue-700 hover:to-violet-700',
           ]"
         >
-          {{ isLoading ? 'Generating...' : 'Generate Custom Materials' }}
+          {{ isLoading ? 'Generating...' : 'Generate My Lesson  ✨' }}
         </button>
       </div>
     </div>
+    <p class="mt-4 text-center text-sm font-bold text-[#94A3B8]">
+      ⚡ READY IN UNDER 60 SECONDS • PDF INCLUDED
+    </p>
     <!-- 한도 초과 모달: 비로그인 시 로그인 유도, 로그인 시 크레딧 소진 안내 -->
     <Modal
       :visible="showLimitModal"
@@ -132,11 +139,35 @@ import { useGoogleLogin } from '@/helpers/useGoogleLogin.js'
 import { useAuthStore } from '@/stores/auth.store.js'
 import { useUsageStore } from '@/stores/usage.store.js'
 import { GRADE_LEVELS, LANGUAGES, MAP_COMPLEXITIES, PASSAGE_LENGTHS } from '@/utils/constants.js'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
 // Sub-component imports
 import FormField from './FormField.vue'
 import SelectField from './SelectField.vue'
+
+import { useRoute, useRouter } from 'vue-router'
+
+const route = useRoute()
+const router = useRouter()
+
+onMounted(() => {
+  if (route.path === '/app' && route.query?.topic) {
+    const query = route.query
+    console.log(query, 'query')
+    inputTopic.value = query.topic
+    gradeLevel.value = query.gradeLevel
+    language.value = query.language
+    passageLength.value = query.passageLength
+    mapComplexity.value = query.mapComplexity
+
+    router.replace({
+      path: route.path,
+      query: {},
+    })
+
+    emit('generate', query)
+  }
+})
 
 const props = defineProps({
   /**
@@ -234,6 +265,20 @@ const handleSubmit = () => {
 
   // Maximum length validation
   if (trimmedTopic.length > 200) {
+    return
+  }
+
+  if (route.path !== '/app') {
+    router.push({
+      path: '/app',
+      query: {
+        topic: trimmedTopic,
+        gradeLevel: gradeLevel.value,
+        language: language.value,
+        passageLength: passageLength.value,
+        mapComplexity: mapComplexity.value,
+      },
+    })
     return
   }
 

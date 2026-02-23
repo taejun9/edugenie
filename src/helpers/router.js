@@ -10,15 +10,46 @@ import { createRouter, createWebHashHistory } from 'vue-router'
  */
 const routes = [
   {
-    path: '/login',
-    redirect: '/',
-  },
-  {
     path: '/',
     name: 'Home',
     component: () => import('@/views/Home.vue'),
     meta: {
-      title: 'EduGenie - Customized Learning Materials Generator',
+      title: 'EduGenie - AI Lesson Generator',
+    },
+  },
+  {
+    path: '/app',
+    name: 'App',
+    component: () => import('@/views/AppPage.vue'),
+    meta: {
+      title: 'Create Lesson - EduGenie',
+    },
+  },
+  {
+    path: '/mypage',
+    name: 'MyPage',
+    component: () => import('@/views/MyPage.vue'),
+    meta: {
+      title: 'My Page - EduGenie',
+      requiresAuth: true,
+    },
+  },
+  {
+    path: '/mypage/contents',
+    name: 'ContentsList',
+    component: () => import('@/views/ContentsListPage.vue'),
+    meta: {
+      title: 'My Contents - EduGenie',
+      requiresAuth: true,
+    },
+  },
+  {
+    path: '/pricing/checkout',
+    name: 'Checkout',
+    component: () => import('@/views/CheckoutPage.vue'),
+    meta: {
+      title: 'Checkout - EduGenie',
+      requiresAuth: true,
     },
   },
   {
@@ -29,12 +60,11 @@ const routes = [
       title: 'Authentication - EduGenie',
     },
   },
-  // 추가 라우트는 여기에 정의할 수 있습니다.
 ]
 
 /**
  * Router 인스턴스 생성
- * createWebHashHistory를 사용하여 Hash History 모드를 활성화합니다.
+ * createWebHistory를 사용하여 HTML5 History 모드를 활성화합니다.
  */
 const router = createRouter({
   history: createWebHashHistory(),
@@ -42,13 +72,22 @@ const router = createRouter({
 })
 
 /**
- * 라우트 가드: 라우트 변경 전 메타 정보 업데이트
- * 각 라우트의 meta.title을 문서 제목으로 설정합니다.
+ * 라우트 가드: 인증 확인 및 메타 정보 업데이트
  */
 router.beforeEach((to, from, next) => {
+  // 문서 타이틀 설정
   if (to.meta.title) {
     document.title = to.meta.title
   }
+
+  // 인증이 필요한 페이지 가드
+  if (to.meta.requiresAuth) {
+    const storedUser = localStorage.getItem('user')
+    if (!storedUser) {
+      return next({ name: 'Login', query: { redirect: to.fullPath } })
+    }
+  }
+
   next()
 })
 

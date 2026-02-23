@@ -1,6 +1,10 @@
 <template>
   <div :class="colSpanClass">
-    <label v-if="label" class="mb-2 block text-sm font-bold text-gray-800">
+    <label
+      v-if="label"
+      class="mb-2 block"
+      :class="labelStyle ? labelStyle : 'text-xs font-bold text-[#94A3B8]'"
+    >
       {{ label }}
     </label>
     <slot />
@@ -26,6 +30,10 @@ const props = defineProps({
    * Field label text
    */
   label: {
+    type: String,
+    default: '',
+  },
+  labelStyle: {
     type: String,
     default: '',
   },

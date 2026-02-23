@@ -1,130 +1,140 @@
 <template>
-  <nav class="no-print sticky top-0 z-50 border-b border-gray-200 bg-white">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="flex h-16 justify-between">
-        <div
-          class="flex cursor-pointer items-center space-x-2 py-1 transition-opacity hover:opacity-80"
-          @click="goToHome"
+  <nav :class="headerClasses">
+    <div
+      class="mx-auto flex h-16 items-center px-4 sm:px-6 lg:px-8"
+      :class="fullWidth ? 'w-full' : 'max-w-7xl justify-between'"
+    >
+      <!-- Logo -->
+      <div
+        class="flex cursor-pointer items-center py-1 transition-opacity hover:scale-[1.02]"
+        @click="goHome"
+      >
+        <img
+          src="@/assets/images/logo.svg"
+          alt="EduGenie Logo"
+          class="hidden h-10 object-contain xs-480:block"
+        />
+        <img
+          src="@/assets/images/edu_genie.svg"
+          alt="EduGenie Logo"
+          class="block h-10 object-contain xs-480:hidden"
+        />
+      </div>
+
+      <!-- Center Navigation (Desktop) -->
+      <div class="hidden flex-1 items-center justify-end gap-8 pr-8 md:flex">
+        <slot name="navigation"></slot>
+      </div>
+
+      <!-- Right Actions -->
+      <div class="flex items-center gap-3">
+        <!-- Info Slot (e.g. Credits) -->
+        <slot name="info"></slot>
+
+        <!-- User Profile / Login -->
+        <div v-if="isAuthenticated" class="flex items-center gap-x-2">
+          <UserProfile />
+        </div>
+        <div v-else>
+          <GoogleLoginButton :isDarkMode="false" />
+        </div>
+
+        <!-- Mobile menu button -->
+        <button
+          v-if="hasMobileMenu"
+          @click="mobileOpen = !mobileOpen"
+          class="flex items-center justify-center rounded-lg p-2 text-gray-600 hover:bg-gray-100 md:hidden"
         >
-          <img
-            src="@/assets/images/logo.svg"
-            alt="EduGenie Logo"
-            class="hidden h-full object-contain xs-480:block"
-          />
-          <img
-            src="@/assets/images/edu_genie.svg"
-            alt="EduGenie Logo"
-            class="block h-full object-contain xs-480:hidden"
-          />
-        </div>
-        <div class="relative flex select-none items-center gap-x-2">
-          <!-- Today's Credit: 비로그인 ●●○🔒🔒 / 로그인 ●●●○○ -->
-          <span
-            v-if="!tokenUsageLoading"
-            class="flex h-10 items-center gap-1 rounded-full border bg-gray-100 px-2.5"
-            :title="creditTitle"
-            @click="showTooltip = !showTooltip"
+          <svg
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
           >
-            <div class="group flex items-baseline gap-1">
-              <span
-                class="text-sm font-black"
-                :class="callRemaining > 0 ? 'text-[#333]' : 'text-rose-500'"
-              >
-                {{ callCount }} / {{ callLimit }}
-              </span>
-              <span
-                class="text-[9px] font-bold uppercase text-gray-400 transition-colors group-hover:text-indigo-500"
-              >
-                Credits
-              </span>
-              <span
-                v-if="!isAuthenticated"
-                class="ml-1 animate-pulse text-[10px] font-medium text-indigo-400"
-              >
-                (+2 🔓)
-              </span>
-            </div>
-          </span>
-          <span v-else class="rounded-lg bg-gray-100 px-2 py-1 text-xs text-gray-400">...</span>
-          <!-- Display different UI based on login status -->
-          <div v-if="isAuthenticated" class="flex items-center gap-x-2">
-            <UserProfile />
-          </div>
-          <!-- When not logged in -->
-          <div v-else class="relative overflow-hidden rounded-full p-0.5">
-            <GoogleLoginButton :isDarkMode="false" :disabled="tokenUsageLoading" />
-            <div
-              v-if="callRemaining <= 0"
-              class="absolute inset-[-1000%] -z-10 animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_0deg,#6366f1_0%,#a855f7_25%,transparent_50%)]"
-            ></div>
-          </div>
-          <div
-            v-if="showTooltip"
-            @click="showTooltip = false"
-            class="absolute top-[3.5rem] z-50 mb-2 w-48 -translate-x-1/2 rounded-lg bg-gray-800 p-2 text-[11px] text-white shadow-xl"
-            :class="isAuthenticated ? 'left-[45px]' : 'left-[65px]'"
-          >
-            <div
-              class="absolute bottom-full left-1/2 -translate-x-1/2 border-4 border-transparent border-b-gray-800"
-            ></div>
-            {{ creditTitle }}
-          </div>
-          <div
-            v-if="showTooltip"
-            class="fixed inset-0 z-40 cursor-default"
-            @click="showTooltip = false"
-          ></div>
-        </div>
+            <path
+              v-if="!mobileOpen"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+            <path v-else stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+        <!-- Actions Slot (e.g. Extra Buttons) -->
+        <slot name="actions"></slot>
       </div>
     </div>
+
+    <!-- Mobile menu -->
+    <transition
+      enter-active-class="transition duration-200 ease-out"
+      enter-from-class="-translate-y-2 opacity-0"
+      enter-to-class="translate-y-0 opacity-100"
+      leave-active-class="transition duration-150 ease-in"
+      leave-from-class="translate-y-0 opacity-100"
+      leave-to-class="-translate-y-2 opacity-0"
+    >
+      <div
+        v-if="mobileOpen && hasMobileMenu"
+        class="border-t border-gray-100 bg-white/95 px-4 pb-4 pt-2 shadow-lg backdrop-blur-lg md:hidden"
+      >
+        <slot name="mobile-menu" :close="closeMobileMenu"></slot>
+      </div>
+    </transition>
   </nav>
 </template>
 
 <script setup>
-/**
- * @component Header
- * @description Application header component
- * Provides functionality to navigate to home when logo is clicked.
- * Displays profile or login button based on authentication status.
- */
+import GoogleLoginButton from '@/components/Layout/GoogleLoginButton.vue'
+import UserProfile from '@/components/Layout/UserProfile.vue'
 import { useAuthStore } from '@/stores/auth.store.js'
-import { useUsageStore } from '@/stores/usage.store.js'
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, ref, useSlots } from 'vue'
 import { useRouter } from 'vue-router'
-import GoogleLoginButton from './GoogleLoginButton.vue'
-import UserProfile from './UserProfile.vue'
+
+const props = defineProps({
+  fixed: {
+    type: Boolean,
+    default: false,
+  },
+  transparentEffect: {
+    type: Boolean,
+    default: false,
+  },
+  fullWidth: {
+    type: Boolean,
+    default: false,
+  },
+})
 
 const router = useRouter()
+const slots = useSlots()
 const { isAuthenticated } = useAuthStore()
-const { callCount, callRemaining, tokenUsageLoading, callLimit, fetchTokenUsage } = useUsageStore()
 
-onMounted(() => {
-  fetchTokenUsage()
-})
-watch(isAuthenticated, () => {
-  fetchTokenUsage()
-})
+const mobileOpen = ref(false)
 
-const showTooltip = ref(false)
+const hasMobileMenu = computed(() => !!slots['mobile-menu'])
 
-const creditTitle = computed(() => {
-  // 1. 횟수를 다 썼을 때
-  if (callRemaining.value <= 0) {
-    return isAuthenticated.value
-      ? "You've used all credits for today. See you tomorrow!"
-      : 'Daily limit reached. Log in now to get 2 more credits instantly!'
+const headerClasses = computed(() => {
+  const base = 'top-0 z-50 w-full transition-all duration-300'
+  const pos = props.fixed ? 'fixed' : 'sticky'
+
+  if (props.transparentEffect) {
+    return [base, pos, 'bg-white/90 shadow-sm backdrop-blur-lg']
   }
 
-  // 2. 로그인 상태일 때
-  if (isAuthenticated.value) {
-    return `Remaining: ${callRemaining.value} / Total: 5 credits today`
-  }
-
-  // 3. 비로그인(게스트) 상태일 때
-  return `Guest: ${callRemaining.value} credits left. Log in to unlock 5 daily credits!`
+  return [base, pos, 'border-b border-[#F1F5F9] bg-white shadow-sm']
 })
 
-const goToHome = () => {
-  router.push({ path: '/', query: {} })
+const goHome = () => {
+  if (router.currentRoute.value.path === '/') {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  } else {
+    router.push('/')
+  }
+}
+
+const closeMobileMenu = () => {
+  mobileOpen.value = false
 }
 </script>

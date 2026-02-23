@@ -1,14 +1,34 @@
 <template>
-  <footer class="no-print mt-20 bg-gray-900 py-12 text-white">
-    <div class="mx-auto max-w-7xl px-4 text-center">
-      <h2 class="mb-4 text-2xl font-bold">Dramatically reduce your lesson preparation time.</h2>
-      <p class="mb-8 text-gray-400">
-        Thousands of teachers are already using AI to design customized lessons.
-      </p>
-      <div class="flex justify-center space-x-6">
-        <span class="border-r border-gray-700 pr-6 text-sm">Quick Content Generation</span>
-        <span class="border-r border-gray-700 pr-6 text-sm">Curriculum Alignment</span>
-        <span class="text-sm">Multilingual Support</span>
+  <footer class="border-t border-[#F1F5F9] bg-[#F8FAFC] py-8">
+    <div class="mx-auto flex max-w-7xl flex-col items-center justify-center px-4 text-center">
+      <!-- Logo -->
+      <img class="mb-10 h-12" src="@/assets/images/logo.svg" alt="EduGenie Logo" />
+
+      <!-- Links -->
+      <div class="mb-8 flex items-center justify-center gap-8">
+        <a
+          href="#"
+          class="text-[11px] font-bold uppercase tracking-widest text-[#94A3B8] transition-colors hover:text-[#64748B]"
+        >
+          PRIVACY
+        </a>
+        <a
+          href="#"
+          class="text-[11px] font-bold uppercase tracking-widest text-[#94A3B8] transition-colors hover:text-[#64748B]"
+        >
+          TERMS
+        </a>
+        <a
+          href="#"
+          class="text-[11px] font-bold uppercase tracking-widest text-[#94A3B8] transition-colors hover:text-[#64748B]"
+        >
+          COOKIES
+        </a>
+      </div>
+
+      <!-- Copyright -->
+      <div class="text-[10px] font-extrabold uppercase tracking-widest text-[#CBD5E1]">
+        © 2026 EduGenie AI. Built to make knowledge flow.
       </div>
     </div>
   </footer>

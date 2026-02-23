@@ -3,7 +3,7 @@
     <!-- Profile Button (Google Login Button Style) -->
     <button
       @click="toggleDropdown"
-      class="box-content flex h-10 items-center gap-x-0.5 rounded-full border border-[#747775] bg-white px-1 pr-2 transition-colors hover:bg-gray-50 focus:outline-none"
+      class="box-content flex h-10 items-center gap-x-0.5 rounded-full border border-[#747775] bg-white px-1 pr-2 transition-all hover:bg-gray-50 focus:outline-none"
       :class="{ 'bg-gray-100': isOpen }"
       aria-haspopup="true"
       :aria-expanded="isOpen"
@@ -75,19 +75,19 @@
       </button>
     </div>
 
-    <!-- Backdrop for clicking outside -->
-    <div v-if="isOpen" class="fixed inset-0 z-40 cursor-default" @click="isOpen = false"></div>
+    <!-- Backdrop for clicking outside removed in favor of click listener -->
   </div>
 </template>
 
 <script setup>
 import { useAuthStore } from '@/stores/auth.store.js'
-import { ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const { user, userInitial, logout } = useAuthStore()
 const isOpen = ref(false)
+const dropdownRef = ref(null)
 
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value
@@ -96,6 +96,20 @@ const toggleDropdown = () => {
 const handleLogout = () => {
   isOpen.value = false
   logout()
-  router.push({ path: '/', query: {} })
+  router.go(0)
 }
+
+const handleClickOutside = (event) => {
+  if (dropdownRef.value && !dropdownRef.value.contains(event.target)) {
+    isOpen.value = false
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside)
+})
 </script>
