@@ -35,8 +35,9 @@
         <div v-if="isAuthenticated" class="flex items-center gap-x-2">
           <UserProfile />
         </div>
-        <div v-else>
+        <div v-else class="relative">
           <GoogleLoginButton :isDarkMode="false" />
+          <slot name="login-help"></slot>
         </div>
 
         <!-- Mobile menu button -->
@@ -120,10 +121,10 @@ const headerClasses = computed(() => {
   const pos = props.fixed ? 'fixed' : 'sticky'
 
   if (props.transparentEffect) {
-    return [base, pos, 'bg-white/90 shadow-sm backdrop-blur-lg']
+    return [base, pos, 'bg-white/90 shadow-sm backdrop-blur-lg select-none']
   }
 
-  return [base, pos, 'border-b border-[#F1F5F9] bg-white shadow-sm']
+  return [base, pos, 'border-b border-[#F1F5F9] bg-white shadow-sm  select-none']
 })
 
 const goHome = () => {

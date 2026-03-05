@@ -18,6 +18,7 @@ export async function generateEducationalContent(params) {
 
   const headers = {
     'Content-Type': 'application/json',
+    'ngrok-skip-browser-warning': 'true',
   }
   if (fingerprint) headers['X-Fingerprint'] = fingerprint
   if (userEmail) headers['X-User-Email'] = userEmail
@@ -70,5 +71,96 @@ export async function generateEducationalContent(params) {
     params.onProgress(100)
   }
 
-  return data.content
+  const generated = data?.content ?? data
+  if (!generated || typeof generated !== 'object') {
+    return generated
+  }
+
+  const contentId =
+    generated.contentId ?? generated.content_id ?? data?.contentId ?? data?.content_id
+
+  return {
+    ...generated,
+    ...(contentId ? { contentId } : {}),
+  }
+}
+
+/**
+ * 저장된 교육 컨텐츠 목록 조회
+ */
+export async function getSavedContents() {
+  const { user } = useAuthStore()
+  const userEmail = user?.value?.email
+
+  if (!userEmail) throw new Error('You must be logged in to view saved contents.')
+
+  const headers = {
+    'Content-Type': 'application/json',
+    'X-User-Email': userEmail,
+  }
+
+  const res = await fetch(API_ENDPOINTS.GEMINI.SAVED_CONTENTS, {
+    method: 'GET',
+    headers,
+  })
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch saved contents (${res.status})`)
+  }
+
+  return await res.json()
+}
+
+/**
+ * 특정 교육 컨텐츠 상세 조회
+ * @param {string} id - 컨텐츠 ID
+ */
+export async function getSavedContentById(id) {
+  const { user } = useAuthStore()
+  const userEmail = user?.value?.email
+
+  if (!userEmail) throw new Error('You must be logged in to view this content.')
+
+  const headers = {
+    'Content-Type': 'application/json',
+    'X-User-Email': userEmail,
+  }
+
+  const res = await fetch(API_ENDPOINTS.GEMINI.SAVED_CONTENT_BY_ID(id), {
+    method: 'GET',
+    headers,
+  })
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch content details (${res.status})`)
+  }
+
+  return await res.json()
+}
+
+/**
+ * 특정 교육 컨텐츠 삭제 (Soft Delete)
+ * @param {string} id - 컨텐츠 ID
+ */
+export async function deleteSavedContent(id) {
+  const { user } = useAuthStore()
+  const userEmail = user?.value?.email
+
+  if (!userEmail) throw new Error('You must be logged in to delete this content.')
+
+  const headers = {
+    'Content-Type': 'application/json',
+    'X-User-Email': userEmail,
+  }
+
+  const res = await fetch(API_ENDPOINTS.GEMINI.DELETE_CONTENT(id), {
+    method: 'DELETE',
+    headers,
+  })
+
+  if (!res.ok) {
+    throw new Error(`Failed to delete content (${res.status})`)
+  }
+
+  return await res.json()
 }

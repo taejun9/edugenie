@@ -50,7 +50,7 @@
 </template>
 
 <script setup>
-import { t } from './i18n.js'
+import { t } from '@/components/Common/i18n.js'
 
 defineProps({
   content: {

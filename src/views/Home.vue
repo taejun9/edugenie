@@ -39,7 +39,7 @@
       </template>
     </Header>
 
-    <main>
+    <main class="select-none">
       <HeroSection />
       <StatsSection />
       <HowItWorksSection />

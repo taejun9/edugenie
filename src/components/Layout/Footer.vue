@@ -1,5 +1,5 @@
 <template>
-  <footer class="border-t border-[#F1F5F9] bg-[#F8FAFC] py-8">
+  <footer class="select-none border-t border-[#F1F5F9] bg-[#F8FAFC] py-8">
     <div class="mx-auto flex max-w-7xl flex-col items-center justify-center px-4 text-center">
       <!-- Logo -->
       <img class="mb-10 h-12" src="@/assets/images/logo.svg" alt="EduGenie Logo" />

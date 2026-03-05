@@ -9,8 +9,14 @@ export const API_ENDPOINTS = {
     GOOGLE: `${API_BASE_URL}/auth/google`,
     STATUS: `${API_BASE_URL}/auth/status`,
   },
+  GOOGLE_DRIVE: {
+    PROXY: (fileId) => `${API_BASE_URL}/google-drive/proxy?id=${encodeURIComponent(fileId)}`,
+  },
   GEMINI: {
-    EDUCATIONAL_CONTENT: `${API_BASE_URL}/gemini/educational-content`,
+    EDUCATIONAL_CONTENT: `${API_BASE_URL}/gemini/content`,
+    SAVED_CONTENTS: `${API_BASE_URL}/gemini/content`,
+    SAVED_CONTENT_BY_ID: (id) => `${API_BASE_URL}/gemini/content/${id}`,
+    DELETE_CONTENT: (id) => `${API_BASE_URL}/gemini/content/${id}`,
     USAGE: `${API_BASE_URL}/gemini/usage`,
   },
   FINGERPRINT: `${API_BASE_URL}/fingerprint`,

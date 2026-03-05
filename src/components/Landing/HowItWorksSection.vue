@@ -19,42 +19,42 @@
       </div>
 
       <!-- Steps -->
-      <div class="flex w-full flex-col items-center justify-between py-12">
+      <div class="relative flex w-full flex-col items-center justify-between py-12">
+        <!-- Center Vertical Line -->
+        <svg
+          class="absolute left-[calc(50%+1px)] top-0 z-10 h-full w-0.5 -translate-x-1/2"
+          aria-hidden="true"
+        >
+          <line x1="50%" y1="0" x2="50%" y2="100%" stroke="#DBEAFE" stroke-width="2" />
+        </svg>
         <div
           v-for="(step, i) in steps"
           :key="`how-it-work-${i}`"
           class="relative w-full text-center"
         >
           <!-- Step number -->
-          <div class="flex h-max w-full items-center justify-center">
-            <!-- Image placeholder(짝수) -->
-            <div v-if="i % 2 !== 0" class="h-full w-1/2 p-6">
-              <img
-                src="https://picsum.photos/600/320"
-                class="w-full overflow-hidden rounded-xl border border-gray-200 shadow-sm contain-content"
-              />
-            </div>
-
-            <div
-              class="h-full w-1/2 border-[#DBEAFE] p-6"
-              :class="i % 2 === 0 ? 'border-r' : 'border-l'"
-            >
-              <div class="flex w-full flex-col items-start gap-y-6">
+          <div
+            class="flex h-max w-full items-center justify-center"
+            :class="{ 'flex-row-reverse': i % 2 !== 0 }"
+          >
+            <!-- Text Content -->
+            <div class="group h-full w-1/2 p-6">
+              <div class="flex w-[calc(100%-0.125rem-0.5rem)] flex-col items-start gap-y-6">
                 <div
-                  class="flex h-14 w-14 items-center justify-center rounded-2xl border text-xl font-extrabold"
+                  class="flex h-14 w-14 items-center justify-center rounded-2xl border text-xl font-extrabold shadow-md"
                   :class="step.numBg"
                 >
                   0{{ i + 1 }}
                 </div>
 
                 <p class="text-4xl font-extrabold text-[#0F172A]">{{ step.title }}</p>
-                <p class="text-left text-xl text-[#64748B]">
+                <p class="text-left text-xl text-[#64748B] group-hover:text-[#333]">
                   {{ step.description }}
                 </p>
                 <!-- TAGS -->
                 <div v-if="step.tags.length > 0" class="item-center flex gap-x-2">
                   <p
-                    class="rounded-xl border border-[#F1F5F9] bg-[#F8FAFC] p-2 text-xs font-bold text-[#64748B]"
+                    class="rounded-xl border border-[#F1F5F9] bg-[#F8FAFC] p-2 text-xs font-bold text-[#64748B] shadow-sm"
                     v-for="tag in step.tags"
                     :key="`${i}-${tag}`"
                   >
@@ -75,11 +75,11 @@
               </div>
             </div>
 
-            <!-- Image placeholder(홀수) -->
-            <div v-if="i % 2 === 0" class="h-full w-1/2 p-6">
+            <!-- Image placeholder -->
+            <div class="h-full w-1/2 p-6">
               <img
                 src="https://picsum.photos/600/320"
-                class="w-full overflow-hidden rounded-xl border border-gray-200 shadow-sm contain-content"
+                class="w-full overflow-hidden rounded-xl border border-gray-200 shadow-md contain-content"
               />
             </div>
           </div>

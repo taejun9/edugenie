@@ -17,9 +17,11 @@
       <div class="mx-auto grid gap-6 sm:grid-cols-2 lg:gap-8">
         <!-- Before Card -->
         <div
-          class="flex flex-col rounded-3xl border border-gray-100 bg-white px-10 py-8 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)]"
+          class="group/before flex flex-col rounded-3xl border border-gray-100 bg-white px-10 py-8 shadow-md hover:scale-[1.02] hover:shadow-lg"
         >
-          <p class="mb-8 text-xs font-bold uppercase tracking-widest text-slate-400">
+          <p
+            class="mb-8 text-xs font-bold uppercase tracking-widest text-slate-400 group-hover/before:text-[#666]"
+          >
             Before Edugenie
           </p>
           <div class="flex-1 space-y-4">
@@ -41,7 +43,9 @@
                   <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </div>
-              <span class="text-[15px] font-medium leading-relaxed text-slate-600">
+              <span
+                class="font-medium leading-relaxed text-slate-600 group-hover/before:text-[#333]"
+              >
                 {{ item }}
               </span>
             </div>
@@ -50,9 +54,11 @@
 
         <!-- After Card -->
         <div
-          class="flex flex-col rounded-3xl bg-color-main px-10 py-8 shadow-[0_8px_30px_-4px_rgba(37,99,235,0.4)]"
+          class="group/after flex flex-col rounded-3xl bg-color-main px-10 py-8 shadow-md hover:scale-[1.02] hover:shadow-lg"
         >
-          <p class="mb-8 text-xs font-bold uppercase tracking-widest text-blue-200">
+          <p
+            class="mb-8 text-xs font-bold uppercase tracking-widest text-blue-200 group-hover/after:text-blue-100"
+          >
             After Edugenie
           </p>
           <div class="flex-1 space-y-4">
@@ -74,7 +80,9 @@
                   <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                 </svg>
               </div>
-              <span class="text-[15px] font-bold leading-relaxed text-white">
+              <span
+                class="text-[15px] font-bold leading-relaxed text-[#d9d9d9] group-hover/after:text-white"
+              >
                 {{ item }}
               </span>
             </div>

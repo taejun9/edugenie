@@ -18,17 +18,19 @@
         <div
           v-for="(step, i) in processSteps"
           :key="i"
-          class="relative flex flex-col items-center rounded-3xl border-2 border-blue-400 bg-white px-6 pb-6 pt-8 text-center shadow-sm"
+          class="group relative flex cursor-default flex-col items-center rounded-3xl border-2 border-blue-400 bg-white px-6 pb-6 pt-8 text-center shadow-sm transition-all duration-300 hover:scale-[1.02] hover:border-blue-500"
         >
           <!-- Step Number Badge -->
           <div
-            class="absolute -top-7 left-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-color-main text-xl font-bold text-white shadow-lg"
+            class="absolute -top-7 left-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-color-main text-xl font-bold text-white shadow-lg group-hover:bg-blue-600"
           >
             {{ i + 1 }}
           </div>
 
-          <h3 class="mb-4 text-xl font-bold text-gray-900">{{ step.title }}</h3>
-          <p class="text-[15px] leading-relaxed text-[#64748B]">
+          <h3 class="mb-4 text-xl font-bold text-gray-900 group-hover:text-black">
+            {{ step.title }}
+          </h3>
+          <p class="leading-relaxed text-[#64748B] group-hover:text-[#333]">
             {{ step.description }}
           </p>
         </div>

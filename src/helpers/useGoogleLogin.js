@@ -17,6 +17,14 @@ export function useGoogleLogin() {
   }
 
   const openGoogleLoginPopup = async () => {
+    // 임시 로그인 설정
+    return login({
+      name: 'quang duy nguyễn',
+      email: 'quangduynguyen125@gmail.com',
+      provider: 'google',
+      picture:
+        'https://lh3.googleusercontent.com/a/ACg8ocK9gOEGbLTQqrYa9--7MTZi8B-EWyr18PcwLs8_ZamfSInX2RI=s96-c',
+    })
     const width = 500
     const height = 600
     const left = window.screenX + (window.outerWidth - width)

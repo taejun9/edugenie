@@ -1,13 +1,8 @@
-/**
- * Vue Router 설정 파일
- * 애플리케이션의 라우팅을 관리합니다.
- */
+import { useAuthStore } from '@/stores/auth.store.js'
 import { createRouter, createWebHashHistory } from 'vue-router'
 
-/**
- * 라우트 정의
- * 각 라우트는 경로와 해당 컴포넌트를 매핑합니다.
- */
+const publicRouteNames = ['Home', 'App', 'AuthCallback', 'Error']
+
 const routes = [
   {
     path: '/',
@@ -26,22 +21,50 @@ const routes = [
     },
   },
   {
-    path: '/mypage',
-    name: 'MyPage',
-    component: () => import('@/views/MyPage.vue'),
+    path: '/app/:id',
+    name: 'AppViewer',
+    component: () => import('@/views/AppViewerPage.vue'),
     meta: {
-      title: 'My Page - EduGenie',
+      title: 'View Lesson - EduGenie',
       requiresAuth: true,
     },
   },
   {
-    path: '/mypage/contents',
-    name: 'ContentsList',
-    component: () => import('@/views/ContentsListPage.vue'),
+    path: '/mypage',
+    name: 'MyPageLayout',
+    component: () => import('@/views/MyPage.vue'),
     meta: {
-      title: 'My Contents - EduGenie',
       requiresAuth: true,
     },
+    children: [
+      {
+        path: '',
+        name: 'MyContent',
+        component: () => import('@/components/MyPage/MyContent.vue'),
+        meta: {
+          title: 'My Content - EduGenie',
+          requiresAuth: true,
+        },
+      },
+      {
+        path: 'payment-history',
+        name: 'PaymentHistory',
+        component: () => import('@/components/MyPage/PaymentHistory.vue'),
+        meta: {
+          title: 'Payment History - EduGenie',
+          requiresAuth: true,
+        },
+      },
+      {
+        path: 'delete-account',
+        name: 'DeleteAccount',
+        component: () => import('@/components/MyPage/DeleteAccount.vue'),
+        meta: {
+          title: 'Delete Account - EduGenie',
+          requiresAuth: true,
+        },
+      },
+    ],
   },
   {
     path: '/pricing/checkout',
@@ -60,32 +83,38 @@ const routes = [
       title: 'Authentication - EduGenie',
     },
   },
+  {
+    path: '/error',
+    name: 'Error',
+    component: () => import('@/views/ErrorPage.vue'),
+    meta: {
+      title: 'Error - EduGenie',
+    },
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: '/error',
+  },
 ]
 
-/**
- * Router 인스턴스 생성
- * createWebHistory를 사용하여 HTML5 History 모드를 활성화합니다.
- */
-const router = createRouter({
+export const router = createRouter({
   history: createWebHashHistory(),
   routes,
+  scrollBehavior() {
+    return { top: 0 }
+  },
 })
 
-/**
- * 라우트 가드: 인증 확인 및 메타 정보 업데이트
- */
 router.beforeEach((to, from, next) => {
-  // 문서 타이틀 설정
   if (to.meta.title) {
     document.title = to.meta.title
   }
 
-  // 인증이 필요한 페이지 가드
-  if (to.meta.requiresAuth) {
-    const storedUser = localStorage.getItem('user')
-    if (!storedUser) {
-      return next({ name: 'Login', query: { redirect: to.fullPath } })
-    }
+  const authStore = useAuthStore()
+  const isPublicRoute = publicRouteNames.includes(to.name)
+
+  if (!isPublicRoute && to.meta.requiresAuth && !authStore.isAuthenticated.value) {
+    return next('/')
   }
 
   next()

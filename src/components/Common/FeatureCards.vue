@@ -3,7 +3,7 @@
     <div
       v-for="(feature, index) in features"
       :key="`feature-${index}`"
-      class="feature-card cursor-default rounded-2xl border border-gray-100 bg-white p-6 shadow-sm slide-in-from-top-4"
+      class="feature-card cursor-default rounded-2xl border border-gray-100 bg-white p-6 shadow-sm transition-all duration-300 slide-in-from-top-4 hover:scale-[1.02] hover:border-gray-200 hover:shadow-md"
     >
       <div
         :class="[

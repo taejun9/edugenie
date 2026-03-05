@@ -120,8 +120,8 @@
 </template>
 
 <script setup>
+import { t } from '@/components/Common/i18n.js'
 import { nextTick, Teleport, watch } from 'vue'
-import { t } from './i18n.js'
 
 /**
  * @component EdgeDetailModal

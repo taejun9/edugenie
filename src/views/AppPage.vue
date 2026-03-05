@@ -40,6 +40,27 @@
           </div>
         </span>
       </template>
+      <template #login-help>
+        <div
+          v-if="showGuestLoginBalloon"
+          class="absolute right-0 top-full z-50 mt-2 w-72 rounded-xl border border-indigo-100 bg-white p-3 text-xs text-gray-700 shadow-xl"
+        >
+          <button
+            type="button"
+            class="absolute right-2 top-2 rounded p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
+            @click="dismissGuestLoginBalloon"
+            aria-label="Close login tip"
+          >
+            ×
+          </button>
+          <div
+            class="absolute -top-1 right-6 h-2 w-2 rotate-45 border-l border-t border-indigo-100 bg-white"
+          ></div>
+          <p class="pr-5 leading-relaxed">
+            Log in to get 2 extra daily credits and save the content you created today.
+          </p>
+        </div>
+      </template>
     </Header>
 
     <main class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
@@ -65,7 +86,7 @@
         <ResultView :content="content" @copy="handleCopy" />
       </div>
 
-      <div v-if="status === 'idle'" class="no-print mx-auto mt-12 max-w-5xl">
+      <div v-else class="no-print mx-auto mt-12 max-w-5xl">
         <FeatureCards />
       </div>
     </main>
@@ -95,6 +116,7 @@
  * @description 서비스 메인 페이지 (기존 Home.vue 로직 이전)
  */
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 
 import ErrorAlert from '@/components/Common/ErrorAlert.vue'
 import FeatureCards from '@/components/Common/FeatureCards.vue'
@@ -117,6 +139,7 @@ import { copyToClipboard } from '@/utils/clipboard.js'
 const { toasts, removeToast, showSuccess, showError } = useToast()
 const { isAuthenticated } = useAuthStore()
 const { callCount, callRemaining, tokenUsageLoading, callLimit, fetchTokenUsage } = useUsageStore()
+const router = useRouter()
 
 const status = ref('idle')
 const content = ref(null)
@@ -126,6 +149,7 @@ const resultRef = ref(null)
 const isGenerating = ref(false)
 const loadingProgress = ref(0)
 const tokenUsage = ref(null)
+const isGuestLoginBalloonDismissed = ref(false)
 let progressInterval = null
 
 onMounted(() => {
@@ -151,6 +175,7 @@ const handleGenerate = async (params) => {
   }
 
   isGenerating.value = true
+  isGuestLoginBalloonDismissed.value = false
   status.value = 'loading'
   error.value = null
   loadingProgress.value = 0
@@ -254,4 +279,17 @@ const creditTitle = computed(() => {
   // 3. 비로그인(게스트) 상태일 때
   return `Guest: ${callRemaining.value} credits left. Log in to unlock 5 daily credits!`
 })
+
+const showGuestLoginBalloon = computed(() => {
+  return (
+    !isAuthenticated.value &&
+    status.value === 'success' &&
+    Boolean(content.value) &&
+    !isGuestLoginBalloonDismissed.value
+  )
+})
+
+const dismissGuestLoginBalloon = () => {
+  isGuestLoginBalloonDismissed.value = true
+}
 </script>

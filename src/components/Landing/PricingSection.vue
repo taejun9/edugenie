@@ -1,5 +1,5 @@
 <template>
-  <section id="pricing" class="select-none bg-[#0B1120] py-20 sm:py-28">
+  <section id="pricing" class="bg-[#0B1120] py-20 sm:py-28">
     <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
       <!-- Section Header -->
       <div class="mx-auto mb-16 text-center lg:mb-24">

@@ -106,8 +106,8 @@
  *   @edge-click="handleEdgeClick"
  * />
  */
+import { t } from '@/components/Common/i18n.js'
 import { computed, ref, toRef } from 'vue'
-import { t } from '../../i18n.js'
 import EdgeLabel from './EdgeLabel.vue'
 import GraphEdge from './GraphEdge.vue'
 import GraphNode from './GraphNode.vue'
