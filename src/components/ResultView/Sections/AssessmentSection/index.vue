@@ -42,7 +42,7 @@
           class="no-print w-full rounded-2xl border border-dashed border-indigo-200 bg-indigo-50/60 px-4 py-2 text-sm font-bold text-indigo-700 hover:bg-indigo-100"
           @click="openMultipleChoiceEditor()"
         >
-          + {{ t(content.language, 'addQuestion') }}
+          + {{ t(content.language, 'ADD') }}
         </button>
       </div>
 
@@ -62,7 +62,7 @@
           class="no-print w-full rounded-2xl border border-dashed border-indigo-200 bg-indigo-50/60 px-4 py-2 text-sm font-bold text-indigo-700 hover:bg-indigo-100"
           @click="openShortAnswerEditor()"
         >
-          + {{ t(content.language, 'addQuestion') }}
+          + {{ t(content.language, 'ADD') }}
         </button>
       </div>
 
@@ -81,7 +81,7 @@
           class="no-print w-full rounded-2xl border border-dashed border-indigo-200 bg-indigo-50/60 px-4 py-2 text-sm font-bold text-indigo-700 hover:bg-indigo-100"
           @click="openOpenEndedEditor()"
         >
-          + {{ t(content.language, 'addQuestion') }}
+          + {{ t(content.language, 'ADD') }}
         </button>
       </div>
     </div>

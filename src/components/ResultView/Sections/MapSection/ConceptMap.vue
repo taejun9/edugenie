@@ -319,22 +319,27 @@ const isEdgeLabelActive = (index) => {
   )
 }
 
+const isMobileOrTablet = () => {
+  if (typeof window === 'undefined' || !window.matchMedia) return false
+  const isTouchLike = window.matchMedia('(hover: none), (pointer: coarse)').matches
+  const isTabletWidthOrLess = window.matchMedia('(max-width: 1024px)').matches
+  return isTouchLike || isTabletWidthOrLess
+}
+
 /**
- * 노드 클릭 핸들러 (모바일 지원)
- * - 이미 선택된 노드 클릭 -> 위키 페이지 이동 (기본 동작 허용)
- * - 선택되지 않은 노드 클릭 -> 선택(하이라이트) 상태로 변경하고 이동 막기
+ * 노드 클릭 핸들러
+ * - 모바일/태블릿: 첫 탭은 선택, 두 번째 탭은 링크 이동
+ * - PC: 클릭 즉시 링크 이동 (선택 고정 없음)
  */
 const handleNodeClick = (node, event) => {
-  // 데스크탑 등 hover가 주력인 환경에서도 클릭 시 고정할 수 있음
-  // 여기서는 모바일 사용성을 위해 "첫 터치=선택, 두번째 터치=이동" 패턴 적용
+  if (!isMobileOrTablet()) {
+    selectedNode.value = null
+    return
+  }
 
   if (selectedNode.value !== node.id) {
-    // 아직 선택되지 않은 노드라면 -> 선택만 하고 이동 막음
     event.preventDefault()
     selectedNode.value = node.id
-  } else {
-    // 이미 선택된 상태라면 -> 링크 이동하도록 놔둠 (state는 굳이 안 꺼도 됨)
-    // 혹은 토글하려면: selectedNode.value = null; event.preventDefault();
   }
 }
 

@@ -14,14 +14,6 @@
       >
         {{ t(language, 'keyVocabulary') }}
       </h2>
-      <button
-        v-if="canEdit"
-        type="button"
-        class="no-print hidden rounded-full bg-indigo-600 px-4 py-1.5 text-xs font-bold text-white shadow-sm hover:bg-indigo-700 md:inline-flex md:items-center"
-        @click="openAddPopup"
-      >
-        + ADD
-      </button>
     </div>
     <div class="grid grid-cols-1 gap-6 md:grid-cols-2 print:gap-3">
       <div
@@ -36,7 +28,7 @@
         >
           <button
             type="button"
-            class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white text-[11px] font-bold text-gray-500 ring-1 ring-gray-200 hover:bg-indigo-50 hover:text-indigo-600"
+            class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white text-[11px] font-bold text-[#999] ring-1 ring-gray-200 hover:bg-indigo-50 hover:text-indigo-600 hover:ring-indigo-300"
             @click.stop="openEditPopup(i, v)"
           >
             <svg
@@ -44,7 +36,7 @@
               height="24px"
               viewBox="0 -960 960 960"
               width="24px"
-              fill="#e3e3e3"
+              fill="currentColor"
             >
               <path
                 d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"

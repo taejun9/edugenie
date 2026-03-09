@@ -27,7 +27,7 @@
       <button
         v-if="canEdit"
         type="button"
-        class="no-print absolute right-4 top-4 hidden rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-gray-700 shadow-sm ring-1 ring-gray-200 transition-all group-hover:flex group-hover:items-center group-hover:gap-1"
+        class="no-print absolute right-4 top-4 hidden rounded-full bg-white px-3 py-1 text-xs font-semibold text-[#666] shadow-sm ring-1 ring-gray-200 transition-all hover:bg-gray-50 hover:text-indigo-600 hover:ring-indigo-300 group-hover:flex group-hover:items-center group-hover:gap-1"
         @click="openImageEditor"
       >
         <svg
@@ -55,14 +55,14 @@
           v-if="!isEditingPassage && canEdit"
           @click="startEditPassage"
           type="button"
-          class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-gray-600 shadow-sm ring-1 ring-gray-200 hover:bg-gray-50"
+          class="flex items-center gap-x-1 rounded-full bg-white px-3 py-1 text-xs font-semibold text-[#666] shadow-sm ring-1 ring-gray-200 hover:bg-gray-50 hover:text-indigo-600 hover:ring-indigo-300"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            height="24px"
             viewBox="0 -960 960 960"
-            width="24px"
-            fill="#e3e3e3"
+            width="16px"
+            height="16px"
+            fill="currentColor"
           >
             <path
               d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"
@@ -197,7 +197,7 @@
         <button
           v-if="canEdit"
           type="button"
-          class="no-print absolute -right-2 -top-8 hidden items-center gap-1 rounded-full bg-white px-3 py-1 text-xs font-semibold text-gray-600 shadow-sm ring-1 ring-gray-200 hover:bg-gray-50 group-hover/summary:flex"
+          class="no-print absolute -right-6 -top-16 hidden items-center gap-x-1 rounded-full bg-white px-3 py-1 text-xs font-semibold text-[#666] shadow-sm ring-1 ring-gray-200 hover:bg-gray-50 hover:text-indigo-600 hover:ring-indigo-300 group-hover/summary:flex"
           @click="startEditSummary"
         >
           <svg
@@ -205,7 +205,7 @@
             height="16px"
             viewBox="0 -960 960 960"
             width="16px"
-            fill="#6366f1"
+            fill="currentColor"
           >
             <path
               d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"
@@ -222,7 +222,7 @@
           class="w-full rounded-2xl border border-indigo-200 bg-white p-3 text-sm font-medium text-indigo-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         ></textarea>
         <!-- 우측 상단 Save/Cancel 버튼 -->
-        <div class="absolute -right-2 -top-8 flex gap-2">
+        <div class="absolute -right-6 -top-16 flex gap-2">
           <button
             type="button"
             class="rounded-full bg-indigo-600 px-4 py-1.5 text-xs font-bold text-white shadow-sm hover:bg-indigo-700"
@@ -270,15 +270,15 @@
           >
             <button
               type="button"
-              class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white text-[11px] font-bold text-gray-500 ring-1 ring-gray-200 hover:bg-indigo-50 hover:text-indigo-600"
+              class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white text-[11px] font-bold text-[#999] ring-1 ring-gray-200 hover:bg-indigo-50 hover:text-indigo-600 hover:ring-indigo-300"
               @click.prevent.stop="openReferenceEditor(i, src)"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
+                width="24px"
                 height="24px"
                 viewBox="0 -960 960 960"
-                width="24px"
-                fill="#e3e3e3"
+                fill="currentColor"
               >
                 <path
                   d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"

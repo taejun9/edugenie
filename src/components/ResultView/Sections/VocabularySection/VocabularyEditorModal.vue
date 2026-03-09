@@ -1,53 +1,58 @@
 <template>
-  <div v-if="show" class="no-print fixed inset-0 z-40 flex items-center justify-center bg-black/40">
-    <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
-      <h3 class="mb-4 text-base font-bold text-gray-900">
-        {{ editingIndex !== null ? t(language, 'edit') : t(language, 'add') }} Vocabulary
-      </h3>
-      <div class="space-y-3">
-        <div>
-          <label class="mb-1 block text-xs font-semibold text-gray-500">Word</label>
-          <input
-            v-model="form.word"
-            type="text"
-            class="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
+  <Teleport to="body">
+    <div
+      v-if="show"
+      class="no-print fixed inset-0 z-50 flex items-center justify-center bg-black/40"
+    >
+      <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
+        <h3 class="mb-4 text-base font-bold text-gray-900">
+          {{ editingIndex !== null ? t(language, 'editVocabulary') : t(language, 'addVocabulary') }}
+        </h3>
+        <div class="space-y-3">
+          <div>
+            <label class="mb-1 block text-xs font-semibold text-gray-500">Word</label>
+            <input
+              v-model="form.word"
+              type="text"
+              class="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
+          </div>
+          <div>
+            <label class="mb-1 block text-xs font-semibold text-gray-500">Definition</label>
+            <textarea
+              v-model="form.definition"
+              rows="2"
+              class="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            ></textarea>
+          </div>
+          <div>
+            <label class="mb-1 block text-xs font-semibold text-gray-500">Example</label>
+            <textarea
+              v-model="form.example"
+              rows="2"
+              class="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            ></textarea>
+          </div>
         </div>
-        <div>
-          <label class="mb-1 block text-xs font-semibold text-gray-500">Definition</label>
-          <textarea
-            v-model="form.definition"
-            rows="2"
-            class="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          ></textarea>
+        <div class="mt-4 flex justify-end gap-2">
+          <button
+            type="button"
+            class="rounded-full bg-indigo-600 px-4 py-1.5 text-xs font-bold text-white shadow-sm hover:bg-indigo-700"
+            @click="emit('save')"
+          >
+            {{ t(language, 'save') }}
+          </button>
+          <button
+            type="button"
+            class="rounded-full bg-white px-4 py-1.5 text-xs font-bold text-gray-500 shadow-sm ring-1 ring-gray-200 hover:bg-gray-50"
+            @click="emit('close')"
+          >
+            {{ t(language, 'cancel') }}
+          </button>
         </div>
-        <div>
-          <label class="mb-1 block text-xs font-semibold text-gray-500">Example</label>
-          <textarea
-            v-model="form.example"
-            rows="2"
-            class="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          ></textarea>
-        </div>
-      </div>
-      <div class="mt-4 flex justify-end gap-2">
-        <button
-          type="button"
-          class="rounded-full bg-white px-4 py-1.5 text-xs font-bold text-gray-500 shadow-sm ring-1 ring-gray-200 hover:bg-gray-50"
-          @click="emit('close')"
-        >
-          {{ t(language, 'cancel') }}
-        </button>
-        <button
-          type="button"
-          class="rounded-full bg-indigo-600 px-4 py-1.5 text-xs font-bold text-white shadow-sm hover:bg-indigo-700"
-          @click="emit('save')"
-        >
-          {{ t(language, 'save') }}
-        </button>
       </div>
     </div>
-  </div>
+  </Teleport>
 </template>
 
 <script setup>

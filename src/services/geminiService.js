@@ -97,6 +97,7 @@ export async function getSavedContents() {
   const headers = {
     'Content-Type': 'application/json',
     'X-User-Email': userEmail,
+    'ngrok-skip-browser-warning': 'true',
   }
 
   const res = await fetch(API_ENDPOINTS.GEMINI.SAVED_CONTENTS, {
@@ -124,6 +125,7 @@ export async function getSavedContentById(id) {
   const headers = {
     'Content-Type': 'application/json',
     'X-User-Email': userEmail,
+    'ngrok-skip-browser-warning': 'true',
   }
 
   const res = await fetch(API_ENDPOINTS.GEMINI.SAVED_CONTENT_BY_ID(id), {
@@ -151,6 +153,7 @@ export async function deleteSavedContent(id) {
   const headers = {
     'Content-Type': 'application/json',
     'X-User-Email': userEmail,
+    'ngrok-skip-browser-warning': 'true',
   }
 
   const res = await fetch(API_ENDPOINTS.GEMINI.DELETE_CONTENT(id), {

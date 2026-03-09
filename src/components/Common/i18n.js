@@ -30,6 +30,8 @@ const translations = {
 
     // VocabularySection
     keyVocabulary: '핵심 어휘 사전',
+    addVocabulary: '어휘 추가',
+    editVocabulary: '어휘 수정',
 
     // MapSection
     knowledgeMap: '지식 구조 맵',
@@ -47,6 +49,14 @@ const translations = {
     sampleAnswer: '정답 예시',
     showAnswer: '정답 해설 보기',
     explanation: '해설',
+
+    // QuestionEditorModal
+    addChoiceQuestion: '객관식 문제 추가',
+    addShortAnswerQuestion: '서술형 문제 추가',
+    addOpenEndedQuestion: '창의 사고력 문제 추가',
+    editChoiceQuestion: '객관식 문제 수정',
+    editShortAnswerQuestion: '서술형 문제 수정',
+    editOpenEndedQuestion: '창의 사고력 문제 수정',
 
     // EdgeDetailModal
     relationshipDetail: '관계 상세 정보',
@@ -80,6 +90,8 @@ const translations = {
 
     // VocabularySection
     keyVocabulary: 'Key Vocabulary',
+    addVocabulary: 'Add Vocabulary',
+    editVocabulary: 'Edit Vocabulary',
 
     // MapSection
     knowledgeMap: 'Knowledge Map',
@@ -97,6 +109,14 @@ const translations = {
     sampleAnswer: 'Sample Answer',
     showAnswer: 'Show Answer',
     explanation: 'Explanation',
+
+    // QuestionEditorModal
+    addChoiceQuestion: 'Add Multiple Choice Question',
+    addShortAnswerQuestion: 'Add Short Answer Question',
+    addOpenEndedQuestion: 'Add Creative Thinking Question',
+    editChoiceQuestion: 'Edit Multiple Choice Question',
+    editShortAnswerQuestion: 'Edit Short Answer Question',
+    editOpenEndedQuestion: 'Edit Creative Thinking Question',
 
     // EdgeDetailModal
     relationshipDetail: 'Relationship Details',
@@ -130,6 +150,8 @@ const translations = {
 
     // VocabularySection
     keyVocabulary: 'Vocabulario Clave',
+    addVocabulary: 'Agregar Vocabulario',
+    editVocabulary: 'Editar Vocabulario',
 
     // MapSection
     knowledgeMap: 'Mapa de Conocimiento',
@@ -147,6 +169,14 @@ const translations = {
     sampleAnswer: 'Ejemplo de Respuesta',
     showAnswer: 'Ver Respuesta',
     explanation: 'Explicación',
+
+    // QuestionEditorModal
+    addChoiceQuestion: 'Agregar Pregunta de Opción Múltiple',
+    addShortAnswerQuestion: 'Agregar Pregunta de Respuesta Corta',
+    addOpenEndedQuestion: 'Agregar Pregunta de Pensamiento Creativo',
+    editChoiceQuestion: 'Editar Pregunta de Opción Múltiple',
+    editShortAnswerQuestion: 'Editar Pregunta de Respuesta Corta',
+    editOpenEndedQuestion: 'Editar Pregunta de Pensamiento Creativo',
 
     // EdgeDetailModal
     relationshipDetail: 'Detalles de la Relación',
@@ -180,6 +210,8 @@ const translations = {
 
     // VocabularySection
     keyVocabulary: 'Vocabulaire Clé',
+    addVocabulary: 'Ajouter du Vocabulaire',
+    editVocabulary: 'Modifier le Vocabulaire',
 
     // MapSection
     knowledgeMap: 'Carte des Connaissances',
@@ -197,6 +229,14 @@ const translations = {
     sampleAnswer: 'Exemple de Réponse',
     showAnswer: 'Voir la Réponse',
     explanation: 'Explication',
+
+    // QuestionEditorModal
+    addChoiceQuestion: 'Ajouter une Question à Choix Multiple',
+    addShortAnswerQuestion: 'Ajouter une Question à Réponse Courte',
+    addOpenEndedQuestion: 'Ajouter une Question de Pensée Créative',
+    editChoiceQuestion: 'Modifier la Question à Choix Multiple',
+    editShortAnswerQuestion: 'Modifier la Question à Réponse Courte',
+    editOpenEndedQuestion: 'Modifier la Question de Pensée Créative',
 
     // EdgeDetailModal
     relationshipDetail: 'Détails de la Relation',
@@ -230,6 +270,8 @@ const translations = {
 
     // VocabularySection
     keyVocabulary: '重要語彙',
+    addVocabulary: '語彙を追加',
+    editVocabulary: '語彙を編集',
 
     // MapSection
     knowledgeMap: '知識構造マップ',
@@ -247,6 +289,14 @@ const translations = {
     sampleAnswer: '解答例',
     showAnswer: '解答を見る',
     explanation: '解説',
+
+    // QuestionEditorModal
+    addChoiceQuestion: '選択問題を追加',
+    addShortAnswerQuestion: '記述式問題を追加',
+    addOpenEndedQuestion: '創造的思考問題を追加',
+    editChoiceQuestion: '選択問題を編集',
+    editShortAnswerQuestion: '記述式問題を編集',
+    editOpenEndedQuestion: '創造的思考問題を編集',
 
     // EdgeDetailModal
     relationshipDetail: '関係の詳細',
