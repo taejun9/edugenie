@@ -531,9 +531,9 @@ const buildGoogleDriveImageCandidates = (imageUrl) => {
 
   return [
     API_ENDPOINTS.GOOGLE_DRIVE.PROXY(fileId),
-    `https://drive.google.com/thumbnail?id=${fileId}&sz=w2000`,
-    `https://drive.google.com/uc?export=view&id=${fileId}`,
-    `https://drive.google.com/uc?export=download&id=${fileId}`,
+    // `https://drive.google.com/thumbnail?id=${fileId}&sz=w2000`,
+    // `https://drive.google.com/uc?export=view&id=${fileId}`,
+    // `https://drive.google.com/uc?export=download&id=${fileId}`,
   ]
 }
 
@@ -547,14 +547,40 @@ const resetMainImageSrc = (imageUrl) => {
   const candidates = buildGoogleDriveImageCandidates(imageUrl)
   imageFallbackCandidates.value = candidates
   imageFallbackIndex.value = 0
-  displayImageUrl.value = candidates[0] || ''
+  loadImageWithHeaders(candidates[0] || '')
+}
+
+const loadImageWithHeaders = async (url) => {
+  if (!url) {
+    displayImageUrl.value = ''
+    return
+  }
+
+  try {
+    // Google Drive proxy URL인 경우 fetch로 헤더 추가
+    if (url.includes('/google-drive/proxy')) {
+      const response = await fetch(url, {
+        headers: {
+          'ngrok-skip-browser-warning': 'true',
+        },
+      })
+      if (!response.ok) throw new Error('Image fetch failed')
+      const blob = await response.blob()
+      displayImageUrl.value = URL.createObjectURL(blob)
+    } else {
+      // 일반 URL은 직접 로드
+      displayImageUrl.value = url
+    }
+  } catch (error) {
+    handleMainImageError()
+  }
 }
 
 const handleMainImageError = () => {
   const next = imageFallbackIndex.value + 1
   if (next >= imageFallbackCandidates.value.length) return
   imageFallbackIndex.value = next
-  displayImageUrl.value = imageFallbackCandidates.value[next]
+  loadImageWithHeaders(imageFallbackCandidates.value[next])
 }
 
 watch(
